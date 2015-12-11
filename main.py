@@ -14,18 +14,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-import cgi
-import webapp2
 import os
+import webapp2
 import jinja2
-import MySQLdb
+#import rest
+from google.appengine.ext import ndb
+#import MySQLdb
 
 #from controllers import *
 #from models import *
 
 JINJA_ENVIRONMENT = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)+'/views'),
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)+'/Claas'),
     extensions=['jinja2.ext.autoescape'])
 
 class IndexController(webapp2.RequestHandler):
@@ -35,11 +35,11 @@ class IndexController(webapp2.RequestHandler):
         self.response.out.write(template.render(name=name))
 
 class MatchProviders(webapp2.RequestHandler):
-	def get(self):
-        self.response.out.write('hi')
+	def getEvents(self):
+#        db = MySQLdb.connect(unix_socket='/cloudsql/' + _INSTANCE_NAME, db='guestbook', user='root', charset='utf8')
+		self.response.out.write('df')
+		
 
-
-	
 
 ROUTES = [
 	 ('/', IndexController)

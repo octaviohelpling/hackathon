@@ -15,24 +15,55 @@ WHERE
 -- AVAILABILITIES    
 
 -- Time, when not available.
-select
-*
-from dwh_dl.busy_times
-limit 10
 
--- AND
+-- busy times 
+SELECT
+	user_id,
+	starttime,
+	endtime,
+	'busy_time'::text as reason
+FROM 
+	busy_times bt
+JOIN 
+	users u on u.id = bt.id
+WHERE 
+	u.country = 'France'
+	AND starttime >= current_date
 
-select
-user_id,
-start,
-finish
-from holidays
+UNION ALL
 
-limit 100
+SELECT
+    user_id,
+    start as starttime,
+    finish as endtime,
+    'holiday' as reason
+FROM 
+    holidays h
+JOIN 
+	users u on u.id = h.id
+WHERE 
+	u.country = 'France'
+	AND start >= current_date
+
+UNION ALL 
+
+SELECT 
+    provider_user_id AS user_id,
+    starttime,
+    endtime,
+    'event' as reason
+FROM 
+    events e 
+JOIN 
+	users u on e.provider_user_id = u.id
+WHERE 
+    NOT cancelled
+    AND u.country = 'France'
+	AND starttime >= current_date
 
 
 
--- The working hours of the providers
+-- FINALLY THE AVAILABLE TIMES OF THE PROVIDERS
 
 select
 user_id,

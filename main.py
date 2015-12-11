@@ -25,7 +25,7 @@ from google.appengine.ext import ndb
 #from models import *
 
 JINJA_ENVIRONMENT = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)+'/views'),
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)+'/Claas'),
     extensions=['jinja2.ext.autoescape'])
 
 class IndexController(webapp2.RequestHandler):

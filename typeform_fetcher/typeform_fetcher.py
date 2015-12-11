@@ -9,7 +9,7 @@ details = {}
 details['username'] = 'mahti'
 details['password'] = 'Finlandia'
 
-engine = create_engine('postgresql://' + details['username'] + ':' + details['password'] +'@10.15.0.1/hassle')
+engine = create_engine('postgresql://' + details['username'] + ':' + details['password'] +'@10.15.0.1/helpling')
 
 con = engine.connect()
 max_time = con.execute("select max(updated_at) from requests")

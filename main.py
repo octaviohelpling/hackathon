@@ -14,29 +14,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import os
 import webapp2
+import jinja2
 import rest
 from google.appengine.ext import db
 
-class Cleaner(db.Model):
-	name = db.StringProperty()
-	created = db.DateTimeProperty(auto_now_add=True)
+#from controllers import *
+from models import *
 
+JINJA_ENVIRONMENT = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)+'/views'),
+    extensions=['jinja2.ext.autoescape'])
 
-class FrontEndHandler(webapp2.RequestHandler):
+class IndexController(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello Python World!')
+    	name = self.request.params.get('name')
+        template = JINJA_ENVIRONMENT.get_template('index.html')
+        self.response.out.write(template.render(name=name))
 
 
-app = webapp2.WSGIApplication([
-    ('/', FrontEndHandler),
+ROUTES = [
+	('/', IndexController),
     (r'/api/.*', rest.Dispatcher)
+]
 
-], debug=True)
+app = webapp2.WSGIApplication(ROUTES, debug=True)
+
 
 rest.Dispatcher.base_url = "/api"
 rest.Dispatcher.output_content_types = [rest.JSON_CONTENT_TYPE]
 
-# add all models from the current module, and/or...
 rest.Dispatcher.add_models_from_module(__name__)
-

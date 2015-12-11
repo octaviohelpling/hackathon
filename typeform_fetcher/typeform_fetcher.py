@@ -9,7 +9,7 @@ details = {}
 details['username'] = 'mahti'
 details['password'] = 'Finlandia'
 
-engine = create_engine('postgresql://' + details['username'] + ':' + details['password'] +'@10.15.0.1/helpling')
+engine = create_engine('postgresql://' + details['username'] + ':' + details['password'] +'@10.15.0.1/hassle')
 
 con = engine.connect()
 max_time = con.execute("select max(updated_at) from requests")
@@ -44,11 +44,8 @@ requests_dict = json.loads(requests_raw.decode("utf-8"))
 metadata = MetaData(engine)
 
 requests = Table('requests', metadata, autoload=True, autoload_with=engine)
-time = Table('time', metadata, autoload=True, autoload_with=engine)    
-    
     
 i = requests.insert()
-t = time.insert()
 
 for responder in requests_dict['responses']:
     responder['answers']['updated_at'] = datetime.datetime.now()

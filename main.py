@@ -14,14 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import os
+
+import cgi
 import webapp2
+import os
 import jinja2
-import rest
-from google.appengine.ext import db
+import MySQLdb
 
 #from controllers import *
-from models import *
+#from models import *
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)+'/views'),
@@ -33,16 +34,16 @@ class IndexController(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template('index.html')
         self.response.out.write(template.render(name=name))
 
+class MatchProviders(webapp2.RequestHandler):
+	def get(self):
+        self.response.out.write('hi')
+
+
+	
 
 ROUTES = [
-	('/', IndexController),
-    (r'/api/.*', rest.Dispatcher)
+	 ('/', IndexController)
+	,('/match', MatchProviders)
 ]
 
 app = webapp2.WSGIApplication(ROUTES, debug=True)
-
-
-rest.Dispatcher.base_url = "/api"
-rest.Dispatcher.output_content_types = [rest.JSON_CONTENT_TYPE]
-
-rest.Dispatcher.add_models_from_module(__name__)

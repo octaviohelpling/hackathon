@@ -6,8 +6,8 @@ from sqlalchemy import *
 import json
 
 details = {}
-details['username'] = 'mahti'
-details['password'] = 'Finlandia'
+details['username'] = ''
+details['password'] = ''
 
 engine = create_engine('postgresql://' + details['username'] + ':' + details['password'] +'@10.15.0.1/helpling')
 
